@@ -3,6 +3,7 @@ package com.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.json.Json;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.Produces;
@@ -25,10 +26,10 @@ public class ProdutoResource {
     }
 
     @PUT
-    @Path("/{nome}")
-    public void atualizarProduto(@PathParam("nome") String nome, Produto produtoAtualizado) {
+    public void atualizarProduto(Produto produtoAtualizado) {
         for (Produto produto : produtos) {
-            if (produto.getNome().equals(nome)) {
+            if (produto.getId().equals(produtoAtualizado.getId())) {
+                produto.setNome(produtoAtualizado.getNome());
                 produto.setPreco(produtoAtualizado.getPreco());
                 break;
             }
@@ -36,8 +37,9 @@ public class ProdutoResource {
     }
 
     @DELETE
-    @Path("/{nome}")
-    public void removerProduto(@PathParam("nome") String nome) {
-        produtos.removeIf(produto -> produto.getNome().equals(nome));
+    public void removerProduto(Produto id) {
+        produtos.removeIf(
+                produto -> produto.getId().equals(id.getId())
+        );
     }
 }

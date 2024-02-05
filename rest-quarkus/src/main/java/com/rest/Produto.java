@@ -1,6 +1,8 @@
 package com.rest;
 
 public class Produto {
+
+    private Integer id;
     private String nome;
     private double preco;
 
@@ -19,6 +21,14 @@ public class Produto {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    public Integer getId() {
+        return id;
+    }
+
+     public void setId(Integer id) {
+         this.id = id;
+     }
 
     // construtores, getters e setters
 }
