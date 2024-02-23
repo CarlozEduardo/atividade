@@ -29,7 +29,6 @@ import jakarta.persistence.Id;
 @Entity
 public class Produto extends PanacheEntityBase {
     @Id
-    @GeneratedValue
     public Integer id;
     public String nome;
     public double preco;

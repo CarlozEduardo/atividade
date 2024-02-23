@@ -23,16 +23,16 @@ public class ProdutoService {
                 .getResultList();
     }
 
-    /* @Transactional
-    public void atualizarExemplo(Produto exemplo) {
+     @Transactional
+    public void putProduto(Produto exemplo) {
         entityManager.merge(exemplo);
     }
 
     @Transactional
-    public void deletarExemplo(Long id) {
+    public void delProduto(Integer id) {
         Produto exemplo = entityManager.find(Produto.class, id);
         if (exemplo != null) {
             entityManager.remove(exemplo);
         }
-    } */
+    }
 }

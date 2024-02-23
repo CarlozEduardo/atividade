@@ -30,4 +30,16 @@ public class ProdutoResource {
     public void criarProduto(Produto produto) {
         produtoService.postProduto(produto);
     }
+
+    @PUT
+    @Transactional
+    public void atualizarProduto(Produto produto) {
+        produtoService.putProduto(produto);
+    }
+
+    @DELETE
+    public void deletarProduto(Produto produto) {
+        Integer id = produto.id;
+        produtoService.delProduto(id);
+    }
 }
