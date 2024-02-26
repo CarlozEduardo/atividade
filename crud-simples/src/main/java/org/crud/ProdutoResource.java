@@ -4,11 +4,8 @@ import jakarta.transaction.Transactional;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import jakarta.ws.rs.core.Response;
 
 import java.util.List;
-
-import static io.quarkus.hibernate.orm.panache.PanacheEntity_.id;
 
 @Path("/produto")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,7 +36,7 @@ public class ProdutoResource {
 
     @DELETE
     public void deletarProduto(Produto produto) {
-        Integer id = produto.id;
+        Integer id = produto.getId();
         produtoService.delProduto(id);
     }
 }

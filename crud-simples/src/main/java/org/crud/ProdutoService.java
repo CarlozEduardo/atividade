@@ -1,38 +1,34 @@
 package org.crud;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
-
 import java.util.List;
 
 @ApplicationScoped
 public class ProdutoService {
 
-    @Inject
-    EntityManager entityManager;
+    Produto entidade = new Produto();
 
     @Transactional
     public void postProduto(Produto produto) {
-        entityManager.persist(produto);
+        Produto.persist(produto);
     }
 
     public List<Produto> getProduto() {
-         return entityManager.createQuery("SELECT p FROM Produto p", Produto.class)
-                .getResultList();
+        return entidade.listAll();
     }
 
      @Transactional
-    public void putProduto(Produto exemplo) {
-        entityManager.merge(exemplo);
+    public void putProduto(Produto produtoAtualizado) {
+         Produto produtoAntigo = Produto.findById(produtoAtualizado.getId());
+         if (produtoAntigo != null) {
+             produtoAntigo.setNome(produtoAtualizado.getNome());
+             produtoAntigo.setPreco(produtoAtualizado.getPreco());
+         }
     }
 
     @Transactional
     public void delProduto(Integer id) {
-        Produto exemplo = entityManager.find(Produto.class, id);
-        if (exemplo != null) {
-            entityManager.remove(exemplo);
-        }
+        entidade.deleteById(id);
     }
 }
