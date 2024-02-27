@@ -6,20 +6,18 @@ import java.util.List;
 
 @ApplicationScoped
 public class ProdutoService {
-
-    Produto entidade = new Produto();
+    public List<Produto> getProduto() {
+        return Produto.listAll();
+    }
 
     @Transactional
-    public void postProduto(Produto produto) {
-        Produto.persist(produto);
+    public boolean postProduto(Produto produto) {
+        if (Produto.findById(produto.getId()) == null) {
+            Produto.persist(produto);
+        }
     }
-
-    public List<Produto> getProduto() {
-        return entidade.listAll();
-    }
-
      @Transactional
-    public void putProduto(Produto produtoAtualizado) {
+    public boolean putProduto(Produto produtoAtualizado) {
          Produto produtoAntigo = Produto.findById(produtoAtualizado.getId());
          if (produtoAntigo != null) {
              produtoAntigo.setNome(produtoAtualizado.getNome());
@@ -28,7 +26,7 @@ public class ProdutoService {
     }
 
     @Transactional
-    public void delProduto(Integer id) {
-        entidade.deleteById(id);
+    public boolean delProduto(Integer id) {
+        Produto.deleteById(id);
     }
 }

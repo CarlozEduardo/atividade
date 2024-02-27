@@ -13,6 +13,7 @@ public class Produto extends PanacheEntityBase {
     private String nome;
     private Double preco;
 
+    // Getters e Setters
     public Integer getId() {
         return id;
     }
@@ -20,7 +21,7 @@ public class Produto extends PanacheEntityBase {
     public void setId(Integer id) {
         this.id = id;
     }
-   public String getNome() {
+    public String getNome() {
         return nome;
     }
 
