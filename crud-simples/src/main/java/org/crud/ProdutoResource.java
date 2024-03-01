@@ -6,7 +6,9 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
 import java.util.List;
@@ -21,9 +23,13 @@ public class ProdutoResource {
 
     @GET
     @Operation(summary = "Retorna lista de produtos cadastrados")
-    @APIResponse(responseCode = "404", description = "Nenhum conteúdo encontrado!")
+    @APIResponse(responseCode = "201",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = Produto.class,
+                            type = SchemaType.ARRAY)))
     @Transactional
-    public List<Produto> listarProdutos() {
+    public Response listarProdutos() {
         return produtoService.getProduto();
     }
 
@@ -31,12 +37,10 @@ public class ProdutoResource {
     @POST
     @Operation(summary = "Cadastro de produto", description = "Cadastro de produto.")
     @APIResponse(responseCode = "201", description = "Produto cadastrado com sucesso!")
-    @APIResponse(responseCode = "404", description = "Produto já existente!")
+    @APIResponse(responseCode = "409", description = "Produto já existente!")
     @Transactional
     public Response criarProduto(Produto produto) {
-        boolean postou = produtoService.postProduto(produto);
-        return postou ? Response.ok("Produto cadastrado com sucesso!").build()
-                : Response.status(Response.Status.NOT_FOUND).entity("Produto já existente!").build();
+        return produtoService.postProduto(produto);
     }
 
     @PUT
@@ -45,19 +49,15 @@ public class ProdutoResource {
     @APIResponse(responseCode = "404", description = "Produto não encontrado!")
     @Transactional
     public Response atualizarProduto(Produto produto) {
-        boolean atualizou = produtoService.putProduto(produto);
-        return atualizou ? Response.ok("Produto atualizado com sucesso!").build()
-                : Response.status(Response.Status.NOT_FOUND).entity("Produto não encontrado!").build();
+        return produtoService.putProduto(produto);
     }
 
     @DELETE
     @Operation(summary = "Remove um produto", description = "Remove um produto")
-    @APIResponse(responseCode = "200", description = "Produto removido com sucesso!")
+    @APIResponse(responseCode = "201", description = "Produto removido com sucesso!")
     @APIResponse(responseCode = "404", description = "Produto não encontrado!")
     public Response deletarProduto(Produto produto) {
         Integer id = produto.getId();
-        boolean removeu = produtoService.delProduto(id);
-        return removeu ? Response.ok("Produto removido com sucesso!").build()
-                : Response.status(Response.Status.NOT_FOUND).entity("Produto não encontrado!").build();
+        return produtoService.delProduto(id);
     }
 }
