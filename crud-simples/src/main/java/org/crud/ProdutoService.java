@@ -4,8 +4,6 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 
-import java.util.List;
-
 @ApplicationScoped
 public class ProdutoService {
     public Response getProduto() {
@@ -14,11 +12,14 @@ public class ProdutoService {
 
     @Transactional
     public Response postProduto(Produto produto) {
+        Resposta res = new Resposta();
+        res.setDescricao("Produto cadastrado com sucesso");
+        String resConflict = "Produto já existente!";
         if (Produto.findById(produto.getId()) == null) {
             Produto.persist(produto);
-            return Response.status(Response.Status.CREATED).entity("Produto cadastrado com sucesso!").build();
+            return Response.status(Response.Status.CREATED).entity(res).build();
         }
-        return Response.status(Response.Status.CONFLICT).entity("Produto já existente!").build();
+        return Response.status(Response.Status.CONFLICT).entity(produto).build();
     }
      @Transactional
     public Response putProduto(Produto produtoAtualizado) {
