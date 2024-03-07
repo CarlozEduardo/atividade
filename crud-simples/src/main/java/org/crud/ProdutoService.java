@@ -6,38 +6,44 @@ import jakarta.ws.rs.core.Response;
 
 @ApplicationScoped
 public class ProdutoService {
+
+    Resposta res = new Resposta();
+
     public Response getProduto() {
             return Response.status(Response.Status.OK).entity(Produto.listAll()).build();
     }
 
     @Transactional
     public Response postProduto(Produto produto) {
-        Resposta res = new Resposta();
-        res.setDescricao("Produto cadastrado com sucesso");
-        String resConflict = "Produto já existente!";
+        res.setDescricao("Produto já existente!");
         if (Produto.findById(produto.getId()) == null) {
             Produto.persist(produto);
+            res.setDescricao("Produto cadastrado com sucesso");
             return Response.status(Response.Status.CREATED).entity(res).build();
         }
         return Response.status(Response.Status.CONFLICT).entity(produto).build();
     }
      @Transactional
     public Response putProduto(Produto produtoAtualizado) {
+         res.setDescricao("Produto não encontrado!");
          Produto produtoAntigo = Produto.findById(produtoAtualizado.getId());
          if (produtoAntigo != null) {
              produtoAntigo.setNome(produtoAtualizado.getNome());
              produtoAntigo.setPreco(produtoAtualizado.getPreco());
 
-             return Response.status(Response.Status.OK).entity("Produto atualizado com sucesso!").build();
+             res.setDescricao("Produto atualizado com sucesso!");
+             return Response.status(Response.Status.OK).entity(res.getDescricao()).build();
          }
-         return Response.status(Response.Status.NOT_FOUND).entity("Produto não encontrado!").build();
+         return Response.status(Response.Status.NOT_FOUND).entity(res.getDescricao()).build();
      }
 
     @Transactional
     public Response delProduto(Integer id) {
+        res.setDescricao("Produto não encontrado!");
         if (Produto.deleteById(id)) {
-            return Response.status(Response.Status.OK).entity("Produto removido com sucesso!").build();
+            res.setDescricao("Produto removido com sucesso!");
+            return Response.status(Response.Status.OK).entity(res.getDescricao()).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).entity("Produto não encontrado!").build();
+        return Response.status(Response.Status.NOT_FOUND).entity(res.getDescricao()).build();
     }
 }
