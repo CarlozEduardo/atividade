@@ -4,13 +4,30 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ApplicationScoped
 public class ProdutoService {
 
     Resposta res = new Resposta();
 
+    List<Produto> listaProduto = new ArrayList<>();
+
     public Response getProduto() {
             return Response.status(Response.Status.OK).entity(Produto.listAll()).build();
+    }
+
+    public Response listarProdutosPeloPreco(Double precoMax) {
+        List<Produto> listaFiltrada = listaProduto.stream()
+                .filter(produto -> produto.getPreco() <= precoMax).toList();
+
+        if (listaFiltrada.size() > 0) {
+            return Response.status(Response.Status.OK).entity(listaFiltrada).build();
+        } else {
+            res.setDescricao("Nenhum produto com esse preço");
+            return Response.status(Response.Status.NOT_FOUND).entity(res.getDescricao()).build();
+        }
     }
 
     @Transactional

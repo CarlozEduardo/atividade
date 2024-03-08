@@ -11,6 +11,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 
+import javax.management.Query;
 import java.util.List;
 
 @Path("/produto")
@@ -31,6 +32,21 @@ public class ProdutoResource {
     @Transactional
     public Response listarProdutos() {
         return produtoService.getProduto();
+    }
+
+    @GET
+    @Operation(summary = "Retorna lista de produtos até o preço obtido pelo parametro")
+    @APIResponse(responseCode = "201",
+            content = @Content(mediaType = MediaType.APPLICATION_JSON,
+                    schema = @Schema(
+                            implementation = Produto.class,
+                            type = SchemaType.ARRAY)))
+    @APIResponse(responseCode = "404", description = "Nenhum produto com esse preço")
+    @Transactional
+    public Response listarProdutosPeloPreco(
+            @QueryParam("/{preco}") Double precoMax
+    ) {
+        return produtoService.listarProdutosPeloPreco(precoMax);
     }
 
 
