@@ -35,6 +35,7 @@ public class ProdutoResource {
     }
 
     @GET
+    @Path("/{preco}")
     @Operation(summary = "Retorna lista de produtos até o preço obtido pelo parametro")
     @APIResponse(responseCode = "201",
             content = @Content(mediaType = MediaType.APPLICATION_JSON,
@@ -43,9 +44,7 @@ public class ProdutoResource {
                             type = SchemaType.ARRAY)))
     @APIResponse(responseCode = "404", description = "Nenhum produto com esse preço")
     @Transactional
-    public Response listarProdutosPeloPreco(
-            @QueryParam("/{preco}") Double precoMax
-    ) {
+    public Response listarProdutosPeloPreco(@PathParam("preco") Double precoMax) {
         return produtoService.listarProdutosPeloPreco(precoMax);
     }
 

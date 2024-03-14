@@ -4,6 +4,8 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+import java.util.List;
+
 @Entity
 public class Produto extends PanacheEntityBase {
     @Id
@@ -15,10 +17,6 @@ public class Produto extends PanacheEntityBase {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -35,5 +33,13 @@ public class Produto extends PanacheEntityBase {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public static List<Produto> getProdutoAcimaDeDez(Double precoMax)
+    {
+        return list ("from Produto p "
+                                        +
+                                        "where p.preco >= "
+                                        + precoMax.toString());
     }
 }
