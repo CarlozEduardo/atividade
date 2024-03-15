@@ -1,5 +1,6 @@
 package org.crud;
 
+import io.quarkus.hibernate.orm.panache.Panache;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -35,8 +36,7 @@ public class Produto extends PanacheEntityBase {
         this.preco = preco;
     }
 
-    public static List<Produto> getProdutoAcimaDeDez(Double precoMax)
-    {
+    public static List<Produto> getProdutoPeloFiltro(Double precoMax) {
         return list ("from Produto p "
                                         +
                                         "where p.preco >= "

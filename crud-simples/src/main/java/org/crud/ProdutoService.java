@@ -18,12 +18,9 @@ public class ProdutoService {
             return Response.status(Response.Status.OK).entity(Produto.listAll()).build();
     }
 
-    public Response listarProdutosPeloPreco(Double precoMax) {
-//        List<Produto> listaFiltrada = listaProduto.stream()
-//                .filter(produto -> produto.getPreco() <= precoMax).toList();
-
-        if (!Produto.getProdutoAcimaDeDez(precoMax).isEmpty()) {
-            return Response.status(Response.Status.OK).entity(Produto.getProdutoAcimaDeDez(precoMax)).build();
+    public Response listarProdutoPeloPreco(Double precoMax) {
+        if (!Produto.getProdutoPeloFiltro(precoMax).isEmpty()) {
+            return Response.status(Response.Status.OK).entity(Produto.getProdutoPeloFiltro(precoMax)).build();
         } else {
             res.setDescricao("Nenhum produto com esse preço");
             return Response.status(Response.Status.NOT_FOUND).entity(res).build();
@@ -36,7 +33,7 @@ public class ProdutoService {
         if (Produto.findById(produto.getId()) == null) {
             Produto.persist(produto);
             res.setDescricao("Produto cadastrado com sucesso");
-            return Response.status(Response.Status.CREATED).entity(res.getDescricao()).build();
+            return Response.status(Response.Status.CREATED).entity(res).build();
         }
         return Response.status(Response.Status.CONFLICT).entity(produto).build();
     }

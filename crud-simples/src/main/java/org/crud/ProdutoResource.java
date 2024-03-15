@@ -24,7 +24,7 @@ public class ProdutoResource {
 
     @GET
     @Operation(summary = "Retorna lista de produtos cadastrados")
-    @APIResponse(responseCode = "201",
+    @APIResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON,
                     schema = @Schema(
                             implementation = Produto.class,
@@ -37,7 +37,7 @@ public class ProdutoResource {
     @GET
     @Path("/{preco}")
     @Operation(summary = "Retorna lista de produtos até o preço obtido pelo parametro")
-    @APIResponse(responseCode = "201",
+    @APIResponse(responseCode = "200",
             content = @Content(mediaType = MediaType.APPLICATION_JSON,
                     schema = @Schema(
                             implementation = Produto.class,
@@ -45,7 +45,7 @@ public class ProdutoResource {
     @APIResponse(responseCode = "404", description = "Nenhum produto com esse preço")
     @Transactional
     public Response listarProdutosPeloPreco(@PathParam("preco") Double precoMax) {
-        return produtoService.listarProdutosPeloPreco(precoMax);
+        return produtoService.listarProdutoPeloPreco(precoMax);
     }
 
 
