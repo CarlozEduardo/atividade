@@ -16,24 +16,25 @@ public class Produto extends PanacheEntityBase {
 
     private Double preco;
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public Integer getId() {
         return id;
-    }
-
-    public String getNome() {
-        return nome;
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public Double getPreco() {
-        return preco;
+    public String getNome() {
+        return nome;
     }
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+    public Double getPreco() {
+        return preco;
     }
 
     public static List<Produto> getProdutoPeloFiltro(Double precoMax) {
