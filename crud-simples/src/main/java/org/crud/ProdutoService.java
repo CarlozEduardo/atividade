@@ -8,7 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class ProdutoService {
+public class
+ProdutoService {
 
     Resposta res = new Resposta();
 
@@ -35,7 +36,7 @@ public class ProdutoService {
             res.setDescricao("Produto cadastrado com sucesso");
             return Response.status(Response.Status.CREATED).entity(res).build();
         }
-        return Response.status(Response.Status.CONFLICT).entity(produto).build();
+        return Response.status(Response.Status.CONFLICT).entity(res).build();
     }
      @Transactional
     public Response putProduto(Produto produtoAtualizado) {
@@ -46,9 +47,9 @@ public class ProdutoService {
              produtoAntigo.setPreco(produtoAtualizado.getPreco());
 
              res.setDescricao("Produto atualizado com sucesso!");
-             return Response.status(Response.Status.OK).entity(res.getDescricao()).build();
+             return Response.status(Response.Status.OK).entity(res).build();
          }
-         return Response.status(Response.Status.NOT_FOUND).entity(res.getDescricao()).build();
+         return Response.status(Response.Status.NOT_FOUND).entity(res).build();
      }
 
     @Transactional
@@ -56,8 +57,9 @@ public class ProdutoService {
         res.setDescricao("Produto não encontrado!");
         if (Produto.deleteById(id)) {
             res.setDescricao("Produto removido com sucesso!");
-            return Response.status(Response.Status.OK).entity(res.getDescricao()).build();
+            return Response.status(Response.Status.OK).entity(res).build();
         }
-        return Response.status(Response.Status.NOT_FOUND).entity(res.getDescricao()).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(res).build();
+
     }
 }

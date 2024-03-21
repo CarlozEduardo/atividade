@@ -69,7 +69,7 @@ public class ProdutoResource {
 
     @DELETE
     @Operation(summary = "Remove um produto", description = "Remove um produto")
-    @APIResponse(responseCode = "201", description = "Produto removido com sucesso!")
+    @APIResponse(responseCode = "200", description = "Produto removido com sucesso!")
     @APIResponse(responseCode = "404", description = "Produto não encontrado!")
     public Response deletarProduto(Produto produto) {
         Integer id = produto.getId();
