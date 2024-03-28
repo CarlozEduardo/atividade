@@ -1,22 +1,18 @@
 package org.crud;
 
 import io.quarkus.test.junit.QuarkusTest;
-
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
 
 @QuarkusTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ProdutoResourceTest {
-//    @Mock
-//    private Produto produto;
+
     @Test
     @Order(1)
     void testGetProduto() {
@@ -67,23 +63,23 @@ class ProdutoResourceTest {
         Assertions.assertEquals("Produto cadastrado com sucesso", resposta.jsonPath().getString("descricao"));
     }
 
-//    @Test
-//    @Order(4)
-//    void testPutProduto() {
-//        Produto produtoTest = new Produto();
-//        produtoTest.setId(10000);
-//        produtoTest.setNome("Teste-B");
-//        produtoTest.setPreco(20.0);
-//
-//        Response resposta = given()
-//                .body(produtoTest)
-//                .contentType(ContentType.JSON)
-//                .when()
-//                .put("/produto");
-//
-//        Assertions.assertEquals(200, resposta.getStatusCode());
-//        Assertions.assertEquals("Produto atualizado com sucesso!", resposta.jsonPath().getString("descricao"));
-//    }
+    @Test
+    @Order(4)
+    void testPutProduto() {
+        Produto produtoTest = new Produto();
+        produtoTest.setId(10000);
+        produtoTest.setNome("Teste-B");
+        produtoTest.setPreco(20.0);
+
+        Response resposta = given()
+                .body(produtoTest)
+                .contentType(ContentType.JSON)
+                .when()
+                .put("/produto");
+
+        Assertions.assertEquals(200, resposta.getStatusCode());
+        Assertions.assertEquals("Produto atualizado com sucesso!", resposta.jsonPath().getString("descricao"));
+    }
 
     @Test
     @Order(5)
@@ -100,5 +96,4 @@ class ProdutoResourceTest {
         Assertions.assertEquals(200, resposta.getStatusCode());
         Assertions.assertEquals("Produto removido com sucesso!", resposta.jsonPath().getString("descricao"));
     }
-
 }
